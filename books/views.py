@@ -1,3 +1,9 @@
 from django.shortcuts import render
 
-# Create your views here.
+from .models import Book
+from .services import fetch_books
+
+
+def home(request):
+    books = fetch_books()
+    return render(request, 'home.html', {'books': books})
