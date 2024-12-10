@@ -1,31 +1,36 @@
 {% extends "base.html" %}
 
 {% block body %}
-<div class="grid grid-flow-col auto-cols-max p-16">
-
-    {% for book in books %}
-        <div class="max-w-sm rounded overflow-hidden shadow-lg">
-          <img class="w-full h-40" width="300" height="150" src="https://plus.unsplash.com/premium_photo-1677187301660-5e557d9c0724?q=80&w=2200&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Sunset in the mountains">
-          <div class="px-6 py-4">
-            <div class="font-bold text-xl mb-2">{{ book.title }}</div>
-            <p class="text-gray-700 text-base">
-                This book was written by {{ book.author }} and released in the date {{ book.pub_date }}
-            </p>
-          </div>
-            <div class="mt-1 px-6 pt-4 pb-2 flex justify-between">
-              <div>
-                <span class="text-sm text-gray-700">
-                <span aria-hidden="true" class="absolute inset-0"></span>
-                Price: {{ book.price }}€
-                </span>
-              </div>
-            </div>
-          <div class="px-6 pt-4 pb-2">
-              {% for genre in book.genres.all %}
-                    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{ genre.name }}</span>
-              {% endfor %}
-          </div>
-        </div>
-    {% endfor %}
+<div class="container mx-auto p-8">
+    <h1 class="text-3xl font-bold text-center mb-8">Available Books</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+        {% for book in books %}
+            <a href="{% url 'books:detail' book.id %}" class="block hover:shadow-lg transition-shadow duration-200">
+                <div class="bg-white rounded-lg overflow-hidden shadow-md">
+                    <img
+                        class="w-full h-full object-cover"
+                        src="{{ book.book_cover|default:'https://via.placeholder.com/300x150?text=No+Cover' }}"
+                        alt="Cover of {{ book.title }}">
+                    <div class="p-4">
+                        <h2 class="font-bold text-lg mb-2">{{ book.title }}</h2>
+                        <p class="text-gray-700 text-sm mb-2">
+                            Written by <span class="font-medium">{{ book.author }}</span>
+                        </p>
+                        <p class="text-gray-600 text-sm mb-4">
+                            Published on {{ book.pub_date|date:"F j, Y" }}
+                        </p>
+                        <p class="text-gray-900 font-semibold">Price: €{{ book.price }}</p>
+                    </div>
+                    <div class="px-4 pb-4">
+                        {% for genre in book.genres.all %}
+                            <span class="inline-block bg-blue-100 text-blue-800 rounded-full px-3 py-1 text-xs font-semibold mr-2 mb-2">
+                                {{ genre.name }}
+                            </span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
 </div>
 {% endblock body %}

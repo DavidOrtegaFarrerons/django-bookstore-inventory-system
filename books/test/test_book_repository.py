@@ -47,3 +47,10 @@ class TestBookRepository(TestCase):
         expected_result = [self.book_julia_drama, self.book__tom_fantasy]
         self.assertQuerySetEqual(result, expected_result)
 
+    def test_get_book_by_id(self):
+        """
+        Check that getting a book by its id in fact returns it
+        """
+        result = BookRepository.get_book_by_id(self.book_julia_drama.id)
+        expected_result = self.book_julia_drama
+        self.assertEqual(result, expected_result)

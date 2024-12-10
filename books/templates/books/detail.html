@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="container mx-auto py-10 px-4">
+    <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Book Cover -->
+            <div class="flex justify-center items-start bg-gray-200">
+                <img
+                    src="{{ book.book_cover|default:'https://via.placeholder.com/137x500?text=No+Cover' }}"
+                    alt="Cover of {{ book.title }}"
+                    class="w-[314px] h-[500px] object-fit"
+                >
+            </div>
+            <!-- Book Information -->
+            <div class="p-6">
+                <h1 class="text-2xl font-bold text-gray-800">{{ book.title }}</h1>
+                <h2 class="text-lg text-gray-600 mt-2">
+                    By <span class="font-semibold">{{ book.author.name }}</span>
+                </h2>
+                <p class="text-sm text-gray-500 mt-4">
+                    Published on:
+                    <span class="font-medium">
+                        {{ book.pub_date|date:"F j, Y" }}
+                    </span>
+                </p>
+                <!-- ISBN -->
+                <div class="mt-6">
+                    <h3 class="text-lg font-semibold text-gray-700">ISBN</h3>
+                    <p class="text-sm text-gray-800 mt-2">{{ book.isbn }}</p>
+                </div>
+                <!-- Genres -->
+                <div class="mt-6">
+                    <h3 class="text-lg font-semibold text-gray-700">Genres</h3>
+                    <div class="flex flex-wrap mt-2 gap-2">
+                        {% for genre in book.genres.all %}
+                        <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
+                            {{ genre.name }}
+                        </span>
+                        {% empty %}
+                        <p class="text-gray-500">No genres available.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- Price -->
+                <div class="mt-6">
+                    <h3 class="text-lg font-semibold text-gray-700">Price</h3>
+                    <p class="text-xl text-green-600 font-bold mt-2">
+                        €{{ book.price }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}
